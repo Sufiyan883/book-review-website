@@ -1,0 +1,68 @@
+/* Book detail page */
+.book-detail {
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .book-header {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .book-header img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+  
+  .book-info h1 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .author {
+    color: var(--text-light);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .metadata {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .metadata span {
+    display: flex;
+    align-items: center;
+    color: var(--text-light);
+  }
+  
+  .rating {
+    color: #eab308;
+    font-weight: 600;
+  }
+  
+  .book-review {
+    max-width: 800px;
+  }
+  
+  .book-review p {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+  
+  @media (max-width: 768px) {
+    .book-header {
+      grid-template-columns: 1fr;
+    }
+    
+    .book-header img {
+      height: 300px;
+    }
+  }

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookReviews - Discover Your Next Read</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/cards.css">
+ <style>
+    .auth-buttons button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.auth-buttons button:hover {
+    background-color: #ffd700;
+}
+ </style>
+</head>
+<body>
+
+
+  
+    <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+<script>
+
+    let isSignedIn = false;
+
+    function signIn() {
+        isSignedIn = true;
+        document.getElementById('signInButton').style.display = 'none';
+        document.getElementById('signOutButton').style.display = 'block';
+    }
+
+    function signOut() {
+        isSignedIn = false;
+        document.getElementById('signInButton').style.display = 'block';
+        document.getElementById('signOutButton').style.display = 'none';
+    }
+
+    
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+    
+        console.log(`Searching for books related to: ${searchTerm}`);
+    });
+
+   
+    function toggleMenu() {
+        const menu = document.getElementById('navbarMenu');
+        menu.classList.toggle('active');
+    }
+</script>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="https://api.iconify.design/lucide:book-open.svg" alt="Logo" class="logo-icon">
+        <span>BookReviews</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="about.html">About</a></li>
+        <div auth-buttons>
+        <li><button id="signInButton" onclick="signIn()">Sign In</button></li>
+        <li><button id="signOutButton" onclick="signOut()" style="display: none;">Sign Out</button></li>
+        </div>
+      </ul>
+    </div>
+  
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1>Discover Your Next Great Read</h1>
+      <p>Honest reviews of the best books, curated just for you.</p>
+      <a href="reviews.html" class="cta-button">Browse Reviews</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="featured">
+      <h2>Featured Reviews</h2>
+      <div class="book-grid">
+        <a href="book-midnight-library.html" class="book-card">
+          <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=800" alt="The Midnight Library">
+          <div class="book-info">
+            <h3>The Midnight Library</h3>
+            <p class="author">Matt Haig</p>
+            <div class="rating">★★★★½ 4.5</div>
+          </div>
+        </a>
+        <a href="book-dune.html" class="book-card">
+          <img src="https://images.unsplash.com/photo-1531988042231-d39a9cc12a9a?auto=format&fit=crop&q=80&w=800" alt="Dune">
+          <div class="book-info">
+            <h3>Dune</h3>
+            <p class="author">Frank Herbert</p>
+            <div class="rating">★★★★★ 5.0</div>
+          </div>
+        </a>
+        <a href="book-project-hail-mary.html" class="book-card">
+          <img src="https://images.unsplash.com/photo-1614544048536-0d28caf77f41?auto=format&fit=crop&q=80&w=800" alt="Project Hail Mary">
+          <div class="book-info">
+            <h3>Project Hail Mary</h3>
+            <p class="author">Andy Weir</p>
+            <div class="rating">★★★★★ 4.8</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 BookReviews. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
