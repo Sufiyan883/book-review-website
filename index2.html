@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Reviews</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #f5f6fa;
+            --text-color: #2c3e50;
+            --star-color: #f1c40f;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #4f46e5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Slider Styles */
+        .slider-container {
+            position: relative;
+            margin-bottom: 2rem;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .slider {
+            position: relative;
+            height: 100%;
+        }
+
+        .slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .prev-btn, .next-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .prev-btn { left: 1rem; }
+        .next-btn { right: 1rem; }
+
+        .prev-btn:hover, .next-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Book Details Styles */
+        .book-details {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .book-details h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .author {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .overall-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: var(--star-color);
+            margin-right: 1rem;
+        }
+
+        .description {
+            line-height: 1.8;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .review-card {
+            border-bottom: 1px solid #eee;
+            padding: 1rem 0;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Add Review Form */
+        .add-review-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .rating-input {
+            margin-bottom: 1rem;
+        }
+
+        .rating-input .stars i {
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: color 0.2s;
+        }
+
+        .rating-input .stars i:hover {
+            color: var(--star-color);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: #4f46e5;;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #4f46e5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .slider-container {
+                height: 300px;
+            }
+
+            .prev-btn, .next-btn {
+                padding: 0.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Book Slider Section -->
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slides"></div>
+                <button class="prev-btn">❮</button>
+                <button class="next-btn">❯</button>
+            </div>
+        </div>
+
+        <!-- Book Details Section -->
+        <div class="book-details">
+            <h1 id="bookTitle">The Great Gatsby</h1>
+            <p class="author">by F. Scott Fitzgerald</p>
+            <div class="overall-rating">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <span class="rating-text">4.5 out of 5</span>
+            </div>
+            <p class="description">
+                Set in the summer of 1922 on Long Island, New York, this classic novel follows the mysterious millionaire Jay Gatsby and his obsession with the beautiful Daisy Buchanan. Considered F. Scott Fitzgerald's magnum opus, The Great Gatsby explores themes of decadence, idealism, and excess.
+            </p>
+        </div>
+
+        <!-- User Reviews Section -->
+        <div class="reviews-section">
+            <h2>User Reviews</h2>
+            <div id="reviewsList" class="reviews-list">
+                <!-- Reviews will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Add Review Form -->
+        <div class="add-review-section">
+            <h2>Write a Review</h2>
+            <form id="reviewForm">
+                <div class="rating-input">
+                    <div class="stars">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="userName" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="reviewText" placeholder="Write your review here..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Book images for the slider
+        const bookImages = [
+            'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=800',
+            'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800',
+            'https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&q=80&w=800'
+        ];
+
+        // Default reviews data
+        const defaultReviews = [
+            {
+                userName: "Sarah Johnson",
+                reviewText: "A timeless masterpiece that perfectly captures the essence of the Roaring Twenties. Fitzgerald's prose is simply magical, and the way he weaves themes of wealth, love, and the American Dream is brilliant.",
+                rating: 5,
+                date: "2024-01-15"
+            },
+            {
+                userName: "Michael Chen",
+                reviewText: "The symbolism throughout the novel is incredible. The green light, the eyes of Dr. T.J. Eckleburg - everything has such deep meaning. A must-read for anyone interested in American literature.",
+                rating: 4,
+                date: "2024-01-10"
+            },
+            {
+                userName: "Emily Williams",
+                reviewText: "While the writing is undeniably beautiful, I found some of the characters hard to relate to. However, the story's commentary on wealth and society remains relevant even today.",
+                rating: 4,
+                date: "2024-01-05"
+            },
+            {
+                userName: "David Martinez",
+                reviewText: "The way Fitzgerald describes the lavish parties and the overall atmosphere of the era is simply spectacular. You can almost hear the jazz music and see the champagne flowing.",
+                rating: 5,
+                date: "2023-12-28"
+            }
+        ];
+
+        // Initialize the slider
+        function initializeSlider() {
+            const slidesContainer = document.querySelector('.slides');
+            bookImages.forEach(image => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.innerHTML = `<img src="${image}" alt="Book Cover">`;
+                slidesContainer.appendChild(slide);
+            });
+
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+
+            function showSlide(index) {
+                slidesContainer.style.transform = `translateX(-${index * 100}%)`;
+            }
+
+            document.querySelector('.prev-btn').addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            });
+
+            document.querySelector('.next-btn').addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            });
+
+            // Auto-slide every 5 seconds
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }, 5000);
+        }
+
+        // Star rating functionality
+        function initializeStarRating() {
+            const ratingStars = document.querySelectorAll('.rating-input .stars i');
+            let selectedRating = 0;
+
+            ratingStars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    const rating = this.dataset.rating;
+                    updateStars(rating);
+                });
+
+                star.addEventListener('mouseout', function() {
+                    updateStars(selectedRating);
+                });
+
+                star.addEventListener('click', function() {
+                    selectedRating = this.dataset.rating;
+                    updateStars(selectedRating);
+                });
+            });
+
+            function updateStars(rating) {
+                ratingStars.forEach(star => {
+                    const starRating = star.dataset.rating;
+                    star.className = starRating <= rating ? 'fas fa-star' : 'far fa-star';
+                });
+            }
+        }
+
+        // Handle reviews
+        class ReviewManager {
+            constructor() {
+                this.reviews = JSON.parse(localStorage.getItem('bookReviews'));
+                // If no reviews in localStorage, use default reviews
+                if (!this.reviews || this.reviews.length === 0) {
+                    this.reviews = defaultReviews;
+                    localStorage.setItem('bookReviews', JSON.stringify(this.reviews));
+                }
+                this.form = document.getElementById('reviewForm');
+                this.reviewsList = document.getElementById('reviewsList');
+                this.initialize();
+            }
+
+            initialize() {
+                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+                this.displayReviews();
+            }
+
+            handleSubmit(e) {
+                e.preventDefault();
+                const userName = document.getElementById('userName').value;
+                const reviewText = document.getElementById('reviewText').value;
+                const rating = document.querySelectorAll('.rating-input .fas.fa-star').length;
+
+                if (rating === 0) {
+                    alert('Please select a rating');
+                    return;
+                }
+
+                const review = {
+                    userName,
+                    reviewText,
+                    rating,
+                    date: new Date().toLocaleDateString()
+                };
+
+                this.reviews.unshift(review);
+                localStorage.setItem('bookReviews', JSON.stringify(this.reviews));
+                this.displayReviews();
+                this.form.reset();
+                document.querySelectorAll('.rating-input .stars i').forEach(star => {
+                    star.className = 'far fa-star';
+                });
+            }
+
+            displayReviews() {
+                this.reviewsList.innerHTML = this.reviews.map(review => `
+                    <div class="review-card">
+                        <div class="stars">
+                            ${'<i class="fas fa-star"></i>'.repeat(review.rating)}
+                            ${'<i class="far fa-star"></i>'.repeat(5 - review.rating)}
+                        </div>
+                        <p><strong>${review.userName}</strong> - ${review.date}</p>
+                        <p>${review.reviewText}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeSlider();
+            initializeStarRating();
+            new ReviewManager();
+        });
+    </script>
+</body>
+</html>
