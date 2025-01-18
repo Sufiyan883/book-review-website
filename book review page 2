@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Review App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>:root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --background-color: #f5f6fa;
+        --text-color: #2c3e50;
+        --star-color: #f1c40f;
+        --card-background: #ffffff;
+        --tag-color: #e9f2fe;
+        --tag-text: #3498db;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+    
+    #app {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+    }
+    
+    .book-container {
+        display: flex;
+        gap: 2rem;
+        background: var(--card-background);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+        animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .book-image {
+        flex: 0 0 300px;
+    }
+    
+    .book-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .book-image img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .book-details {
+        flex: 1;
+    }
+    
+    .book-details h1 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+    
+    .book-details h2 {
+        font-size: 1.5rem;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+    
+    .book-rating {
+        margin-bottom: 1rem;
+    }
+    
+    .fa-star, .fa-star-half-alt {
+        color: var(--star-color);
+        margin-right: 0.2rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    
+    .fa-star:hover {
+        transform: scale(1.2);
+    }
+    
+    .book-description {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+    
+    .book-tags {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .tag {
+        background-color: var(--tag-color);
+        color: var(--tag-text);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        transition: transform 0.2s ease;
+    }
+    
+    .tag:hover {
+        transform: scale(1.05);
+    }
+    
+    .reviews-section {
+        background: var(--card-background);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        animation: slideIn 0.5s ease-out 0.2s;
+    }
+    
+    .reviews-section h2 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+    }
+    
+    .review-card {
+        background: var(--background-color);
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        animation: fadeIn 0.5s ease-out;
+    }
+    
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .reviewer-name {
+        font-weight: 600;
+        color: var(--primary-color);
+        font-size: 1.1rem;
+    }
+    
+    .review-date {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+        font-weight: 500;
+    }
+    
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+    
+    input[type="text"]:focus, textarea:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+    }
+    
+    textarea {
+        height: 120px;
+        resize: vertical;
+    }
+    
+    button {
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    button:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .rating-input {
+        margin: 0.5rem 0;
+    }
+    
+    .selected {
+        color: var(--star-color);
+    }</style>
+</head>
+<body>
+    <div id="app">
+        <div class="book-container">
+            <div class="book-image">
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Book Cover">
+            </div>
+            <div class="book-details">
+                <h1>The Midnight Library</h1>
+                <h2>by Matt Haig</h2>
+                <div class="book-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span>(4.5)</span>
+                </div>
+                <p class="book-description">
+                    Between life and death there is a library, and within that library, the shelves go on forever. Every book provides a chance to try another life you could have lived. Would you choose a different path?
+                </p>
+                <div class="book-tags">
+                    <span class="tag">Fiction</span>
+                    <span class="tag">Fantasy</span>
+                    <span class="tag">Contemporary</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews-section">
+            <h2>Reader Reviews</h2>
+            <div id="reviews-list">
+                <!-- Predefined reviews -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">John Smith</span>
+                        <div class="book-rating">
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                        </div>
+                    </div>
+                    <p>A masterpiece that perfectly captures the essence of life's possibilities. The writing is beautiful and the story is deeply moving.</p>
+                    <div class="review-date">January 15, 2024</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Sarah Johnson</span>
+                        <div class="book-rating">
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <p>Beautifully written with complex characters. The concept is fascinating and execution is brilliant.</p>
+                    <div class="review-date">January 10, 2024</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Michael Brown</span>
+                        <div class="book-rating">
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                            <i class="fas fa-star selected"></i>
+                        </div>
+                    </div>
+                    <p>One of the most thought-provoking books I've read. It makes you question your life choices in the best possible way.</p>
+                    <div class="review-date">January 5, 2024</div>
+                </div>
+            </div>
+
+            <div class="add-review">
+                <h3>Add Your Review</h3>
+                <div class="form-group">
+                    <label for="reviewer-name">Your Name:</label>
+                    <input type="text" id="reviewer-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Rating:</label>
+                    <div class="rating-input">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="review-text">Your Review:</label>
+                    <textarea id="review-text" placeholder="Write your review here..." required></textarea>
+                </div>
+                <button id="submit-review">Submit Review</button>
+            </div>
+        </div>
+    </div>
+    <script >
+        // Handle rating selection
+let selectedRating = 0;
+const ratingStars = document.querySelectorAll('.rating-input .fa-star');
+
+ratingStars.forEach(star => {
+    star.addEventListener('mouseover', function() {
+        const rating = this.dataset.rating;
+        ratingStars.forEach(s => {
+            if (s.dataset.rating <= rating) {
+                s.classList.remove('far');
+                s.classList.add('fas');
+            } else {
+                s.classList.remove('fas');
+                s.classList.add('far');
+            }
+        });
+    });
+
+    star.addEventListener('mouseout', function() {
+        ratingStars.forEach(s => {
+            if (s.dataset.rating <= selectedRating) {
+                s.classList.remove('far');
+                s.classList.add('fas');
+            } else {
+                s.classList.remove('fas');
+                s.classList.add('far');
+            }
+        });
+    });
+
+    star.addEventListener('click', function() {
+        selectedRating = parseInt(this.dataset.rating);
+        ratingStars.forEach(s => {
+            if (s.dataset.rating <= selectedRating) {
+                s.classList.remove('far');
+                s.classList.add('fas');
+            } else {
+                s.classList.remove('fas');
+                s.classList.add('far');
+            }
+        });
+    });
+});
+
+// Handle review submission
+document.getElementById('submit-review').addEventListener('click', () => {
+    const reviewerName = document.getElementById('reviewer-name').value.trim();
+    const reviewText = document.getElementById('review-text').value.trim();
+    
+    if (selectedRating === 0 || !reviewText || !reviewerName) {
+        alert('Please provide your name, rating, and review text');
+        return;
+    }
+
+    // Create new review card
+    const reviewCard = document.createElement('div');
+    reviewCard.className = 'review-card';
+    reviewCard.innerHTML = `
+        <div class="review-header">
+            <span class="reviewer-name">${reviewerName}</span>
+            <div class="book-rating">
+                ${Array(5).fill(0).map((_, index) => 
+                    `<i class="fas fa-star ${index < selectedRating ? 'selected' : ''}"></i>`
+                ).join('')}
+            </div>
+        </div>
+        <p>${reviewText}</p>
+        <div class="review-date">${new Date().toLocaleDateString()}</div>
+    `;
+
+    // Add the new review to the top of the list
+    const reviewsList = document.getElementById('reviews-list');
+    reviewsList.insertBefore(reviewCard, reviewsList.firstChild);
+    
+    // Reset form
+    document.getElementById('reviewer-name').value = '';
+    document.getElementById('review-text').value = '';
+    selectedRating = 0;
+    ratingStars.forEach(s => {
+        s.classList.remove('fas');
+        s.classList.add('far');
+    });
+});
+
+// Add hover animation to book image
+const bookImage = document.querySelector('.book-image img');
+bookImage.addEventListener('mouseover', () => {
+    bookImage.style.transform = 'scale(1.03)';
+});
+bookImage.addEventListener('mouseout', () => {
+    bookImage.style.transform = 'scale(1)';
+});
+    </script>
+</body>
+</html>
